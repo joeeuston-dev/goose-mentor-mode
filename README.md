@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/badge/Version-0.1.0-blue)](https://github.com/your-repo/mentor-mode)
 [![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green)](https://modelcontextprotocol.io/)
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://python.org)
-[![Tests](https://img.shields.io/badge/Tests-16%2F16%20Passing-brightgreen)](./tests/)
+[![Tests](https://img.shields.io/badge/Tests-13%2F13%20Passing-brightgreen)](./tests/)
 
 > 🎯 **Transform AI assistance from automation to guided learning experiences**
 
@@ -250,8 +250,8 @@ Mentor Mode is designed to improve:
 # Run all tests
 pytest tests/ -v
 
-# Run specific test category
-pytest tests/test_mentor_engine.py -v
+# Run specific test file
+pytest tests/test_mcp_server.py -v
 
 # Check test coverage
 pytest tests/ --cov=mentor_mcp --cov-report=html
@@ -273,18 +273,16 @@ mypy src/
 ```
 mentor-mode/
 ├── src/mentor_mcp/           # Main MCP extension code
-│   ├── server.py            # MCP server implementation
-│   ├── mentor_engine.py     # Core educational logic
-│   └── tools/               # Individual MCP tools
-├── tests/                   # Comprehensive test suite
-│   ├── test_mentor_engine.py
-│   ├── test_tools.py
-│   └── conftest.py
-├── docs/                    # Additional documentation
-├── examples/                # Usage examples
+│   ├── server.py            # MCP server with 4 educational tools
+│   ├── mentor_engine.py     # Core educational logic engine
+│   └── __init__.py          # Package initialization
+├── tests/                   # Test suite
+│   ├── test_mcp_server.py   # MCP server and tools tests
+│   └── __init__.py          # Test package initialization
 ├── pyproject.toml           # Python package configuration
 ├── goose-config-examples.md # Goose configuration examples
-└── README.md               # This file
+├── LICENSE                  # MIT license
+└── README.md               # This documentation
 ```
 
 ## 🤝 Contributing
@@ -324,4 +322,4 @@ MIT License - see [LICENSE](./LICENSE) for details.
 
 - **Issues**: [GitHub Issues](https://github.com/your-repo/mentor-mode/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-repo/mentor-mode/discussions)
-- **Documentation**: Complete guides in [docs/](./docs/) directory
+- **Documentation**: See [goose-config-examples.md](./goose-config-examples.md) for configuration details
