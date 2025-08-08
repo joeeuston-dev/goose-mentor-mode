@@ -224,6 +224,75 @@ async def guided_learning_session(topic: str, user_context: dict):
 
 ## 🔧 Configuration
 
+### Environment Variable Configuration
+
+Configure mentor mode behavior through environment variables in your Goose Desktop UI:
+
+```yaml
+extensions:
+  mentor-mode:
+    envs:
+      # Core Configuration
+      DEFAULT_ASSISTANCE_LEVEL: "guided"          # guided, explained, assisted, automated
+      LEARNING_PHASE: "skill_building"            # onboarding, skill_building, production
+      TIMELINE_PRESSURE: "low"                    # low, medium, high
+      
+      # Feature Control
+      ENABLE_VALIDATION_CHECKPOINTS: "true"      # true, false
+      MAX_GUIDANCE_DEPTH: "3"                    # 1-5 depth levels
+      FORCE_MENTOR_MODE: "false"                 # true, false (always trigger mentor mode)
+      
+      # Developer Defaults
+      DEFAULT_SKILL_LEVEL: "1"                   # 0-5 skill scale
+      DEVELOPER_EXPERIENCE_MONTHS: "6"           # months of experience
+```
+
+### Configuration Examples
+
+#### **For New Developer (6 months experience)**
+```yaml
+envs:
+  DEFAULT_ASSISTANCE_LEVEL: "guided"
+  LEARNING_PHASE: "skill_building"
+  TIMELINE_PRESSURE: "low"
+  ENABLE_VALIDATION_CHECKPOINTS: "true"
+  DEFAULT_SKILL_LEVEL: "1"
+  DEVELOPER_EXPERIENCE_MONTHS: "6"
+```
+
+#### **For Experienced Developer (under pressure)**
+```yaml
+envs:
+  DEFAULT_ASSISTANCE_LEVEL: "assisted"
+  LEARNING_PHASE: "production"
+  TIMELINE_PRESSURE: "high"
+  ENABLE_VALIDATION_CHECKPOINTS: "false"
+  DEFAULT_SKILL_LEVEL: "4"
+```
+
+#### **For Learning-Focused Sessions**
+```yaml
+envs:
+  DEFAULT_ASSISTANCE_LEVEL: "explained"
+  LEARNING_PHASE: "skill_building"
+  TIMELINE_PRESSURE: "low"
+  FORCE_MENTOR_MODE: "true"              # Always provide educational context
+  MAX_GUIDANCE_DEPTH: "5"                # Maximum learning depth
+```
+
+### Environment Variable Reference
+
+| Variable | Values | Default | Description |
+|----------|--------|---------|-------------|
+| `DEFAULT_ASSISTANCE_LEVEL` | `guided`, `explained`, `assisted`, `automated`, *(empty)* | *(auto)* | Override automatic assistance level selection |
+| `LEARNING_PHASE` | `onboarding`, `skill_building`, `production` | `skill_building` | Developer's current learning phase |
+| `TIMELINE_PRESSURE` | `low`, `medium`, `high` | `low` | Project timeline pressure level |
+| `ENABLE_VALIDATION_CHECKPOINTS` | `true`, `false` | `true` | Enable learning validation questions |
+| `MAX_GUIDANCE_DEPTH` | `1`-`5` | `3` | Maximum depth of guided learning |
+| `FORCE_MENTOR_MODE` | `true`, `false` | `false` | Always trigger educational responses |
+| `DEFAULT_SKILL_LEVEL` | `0`-`5` | `1` | Default skill level for new developers |
+| `DEVELOPER_EXPERIENCE_MONTHS` | *integer* | `12` | Developer experience in months |
+
 ### Assistance Level Customization
 
 ```python

@@ -7,6 +7,7 @@ providing educational AI assistance through sophisticated tool integration.
 
 import asyncio
 import json
+import os
 from typing import Any, Dict, List, Optional, Sequence
 from contextlib import AsyncExitStack
 
@@ -59,11 +60,63 @@ class MentorMCPServer:
     
     def __init__(self):
         self.server = Server("mentor-mode")
+        
+        # Load configuration from environment variables
+        self.config = self._load_env_config()
+        
+        # Initialize mentor components with configuration
         self.mentor_extension = MentorExtension()
         self.mentor_engine = MentorEngine()
         
         # Register tools
         self._register_tools()
+    
+    def _load_env_config(self) -> Dict[str, Any]:
+        """Load configuration from environment variables."""
+        config = {
+            # Default assistance level (overrides automatic selection)
+            "default_assistance_level": os.getenv("DEFAULT_ASSISTANCE_LEVEL", "").lower(),
+            
+            # Default developer context settings
+            "default_learning_phase": os.getenv("LEARNING_PHASE", "skill_building").lower(),
+            "default_timeline_pressure": os.getenv("TIMELINE_PRESSURE", "low").lower(),
+            
+            # Feature flags
+            "enable_validation_checkpoints": os.getenv("ENABLE_VALIDATION_CHECKPOINTS", "true").lower() == "true",
+            "max_guidance_depth": int(os.getenv("MAX_GUIDANCE_DEPTH", "3")),
+            "force_mentor_mode": os.getenv("FORCE_MENTOR_MODE", "false").lower() == "true",
+            
+            # Skill level defaults (for new developers)
+            "default_skill_level": int(os.getenv("DEFAULT_SKILL_LEVEL", "1")),  # 0-5 scale
+            "developer_experience_months": int(os.getenv("DEVELOPER_EXPERIENCE_MONTHS", "12")),
+        }
+        
+        # Validate enum values
+        valid_assistance_levels = ["", "guided", "explained", "assisted", "automated"]
+        valid_learning_phases = ["onboarding", "skill_building", "production"]
+        valid_timeline_pressures = ["low", "medium", "high"]
+        
+        if config["default_assistance_level"] not in valid_assistance_levels:
+            print(f"Warning: Invalid DEFAULT_ASSISTANCE_LEVEL '{config['default_assistance_level']}'. Using automatic selection.")
+            config["default_assistance_level"] = ""
+        
+        if config["default_learning_phase"] not in valid_learning_phases:
+            print(f"Warning: Invalid LEARNING_PHASE '{config['default_learning_phase']}'. Using 'skill_building'.")
+            config["default_learning_phase"] = "skill_building"
+        
+        if config["default_timeline_pressure"] not in valid_timeline_pressures:
+            print(f"Warning: Invalid TIMELINE_PRESSURE '{config['default_timeline_pressure']}'. Using 'low'.")
+            config["default_timeline_pressure"] = "low"
+        
+        # Log configuration (excluding sensitive data)
+        print(f"Mentor Mode Configuration Loaded:")
+        print(f"  - Default Assistance Level: {config['default_assistance_level'] or 'AUTO'}")
+        print(f"  - Learning Phase: {config['default_learning_phase']}")
+        print(f"  - Timeline Pressure: {config['default_timeline_pressure']}")
+        print(f"  - Validation Checkpoints: {config['enable_validation_checkpoints']}")
+        print(f"  - Force Mentor Mode: {config['force_mentor_mode']}")
+        
+        return config
         
     def _register_tools(self) -> None:
         """Register all mentor mode tools with the MCP server."""
@@ -176,14 +229,27 @@ class MentorMCPServer:
         try:
             request = MentorAnalysisRequest(**arguments)
             
-            # Build context
-            context = request.context or {}
+            # Build context with environment variable defaults
+            context = self._merge_context_with_config(request.context or {})
+            
+            # Apply environment variable overrides
+            if request.assistance_level is None and self.config["default_assistance_level"]:
+                request.assistance_level = self.config["default_assistance_level"]
+            
+            # Force mentor mode if configured
+            if self.config["force_mentor_mode"]:
+                context["force_mentor_intervention"] = True
             
             # Process through mentor extension
             result = self.mentor_extension.process_request(
                 user_message=request.user_request,
                 context=context
             )
+            
+            # Override assistance level if specified in config
+            if request.assistance_level:
+                if result.get("mentor_intervention"):
+                    result["assistance_level"] = request.assistance_level
             
             # Format response for MCP
             if result.get("mentor_intervention"):
@@ -194,18 +260,50 @@ class MentorMCPServer:
                     "learning_objectives": result["learning_objectives"],
                     "follow_up_questions": result["follow_up_questions"],
                     "validation_checkpoints": result["validation_checkpoints"],
-                    "progress_indicators": result["progress_indicators"]
+                    "progress_indicators": result["progress_indicators"],
+                    "config_applied": {
+                        "assistance_level_source": "environment" if self.config["default_assistance_level"] else "automatic",
+                        "learning_phase": context.get("learning_phase"),
+                        "timeline_pressure": context.get("timeline_pressure")
+                    }
                 }
             else:
                 response = {
                     "type": "pass_through",
-                    "message": "No mentor intervention needed - proceed with normal processing"
+                    "message": "No mentor intervention needed - proceed with normal processing",
+                    "config_applied": {
+                        "assistance_level_source": "environment" if self.config["default_assistance_level"] else "automatic"
+                    }
                 }
             
             return [TextContent(type="text", text=json.dumps(response, indent=2))]
             
         except Exception as e:
             return [TextContent(type="text", text=f"Error: {str(e)}")]
+    
+    def _merge_context_with_config(self, context: Dict[str, Any]) -> Dict[str, Any]:
+        """Merge user context with environment variable defaults."""
+        merged = {}
+        
+        # Apply environment defaults first
+        merged["learning_phase"] = self.config["default_learning_phase"]
+        merged["timeline_pressure"] = self.config["default_timeline_pressure"]
+        
+        # Add skill defaults if not provided
+        if "skills" not in context:
+            merged["skills"] = {
+                "default_level": self.config["default_skill_level"],
+                "experience_months": self.config["developer_experience_months"]
+            }
+        
+        # Override with user-provided context
+        merged.update(context)
+        
+        # Add configuration flags
+        merged["enable_validation_checkpoints"] = self.config["enable_validation_checkpoints"]
+        merged["max_guidance_depth"] = self.config["max_guidance_depth"]
+        
+        return merged
     
     async def _handle_learning_check(self, arguments: Dict[str, Any]) -> Sequence[TextContent]:
         """Handle learning validation check."""
@@ -404,8 +502,12 @@ class MentorMCPServer:
 
     async def run(self) -> None:
         """Run the MCP server."""
-        async with AsyncExitStack() as stack:
-            await stack.enter_async_context(stdio_server(self.server))
+        async with stdio_server() as (read_stream, write_stream):
+            await self.server.run(
+                read_stream, 
+                write_stream, 
+                self.server.create_initialization_options()
+            )
 
 
 def main() -> None:
