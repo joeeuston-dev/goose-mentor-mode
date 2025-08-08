@@ -21,17 +21,19 @@ Goose Mentor Mode is officially published and available to the entire Python com
 
 ## 📦 Installation
 
-Goose Mentor Mode is a Goose extension that integrates seamlessly with Goose Desktop. There are two installation methods:
+Goose Mentor Mode is a Goose extension that integrates seamlessly with Goose Desktop.
 
 ### 🚀 Quick Install via PyPI (Recommended)
 
 ```bash
-# Install the package
+# Install the package (do NOT use uvx - this is a Goose extension, not a CLI tool)
 pip install goose-mentor-mode
 
-# Or with uv
+# Or if you're using uv in a project
 uv add goose-mentor-mode
 ```
+
+**Note**: This is a Goose extension/toolkit, not a standalone CLI application. Do not try to run it with `uvx` or as a command-line tool.
 
 ### 📦 PyPI Package
 

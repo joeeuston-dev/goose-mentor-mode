@@ -46,8 +46,8 @@ Repository = "https://github.com/joeeuston-dev/goose-mentor-mode"
 Documentation = "https://github.com/joeeuston-dev/goose-mentor-mode/blob/main/README.md"
 Issues = "https://github.com/joeeuston-dev/goose-mentor-mode/issues"
 
-[project.scripts]
-goose-mentor-mode = "goose_mentor_mode:main"
+# Note: This is a Goose extension/toolkit, not a CLI application
+# No scripts are exposed - integration happens through Goose Desktop
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/goose_mentor_mode"]
@@ -60,8 +60,12 @@ include = [
     "/LICENSE",
 ]
 
+[tool.uv.sources]
+goose-mentor-mode = { workspace = true }
+
 [dependency-groups]
 dev = [
+    "goose-mentor-mode",
     "pytest>=8.4.1",
     "twine>=6.1.0",
 ]
