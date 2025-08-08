@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "goose-mentor-mode"
-version = "0.1.0"
+version = "0.1.1"
 description = "AI-powered mentor extension for Goose that transforms automation into guided learning"
 authors = [
     {name = "Joe Euston", email = "joe@example.com"}
@@ -65,4 +65,5 @@ include = [
 [dependency-groups]
 dev = [
     "pytest>=8.4.1",
+    "twine>=6.1.0",
 ]
