@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "goose-mentor-mode"
-version = "0.1.4"
+version = "0.1.6"
 description = "AI-powered mentor extension for Goose that transforms automation into guided learning"
 authors = [
     {name = "Joe Euston", email = "joe@example.com"}
@@ -46,8 +46,8 @@ Repository = "https://github.com/joeeuston-dev/goose-mentor-mode"
 Documentation = "https://github.com/joeeuston-dev/goose-mentor-mode/blob/main/README.md"
 Issues = "https://github.com/joeeuston-dev/goose-mentor-mode/issues"
 
-# Note: This is a Goose extension/toolkit, not a CLI application
-# No scripts are exposed - integration happens through Goose Desktop
+[project.scripts]
+goose-mentor-mode = "goose_mentor_mode:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/goose_mentor_mode"]
