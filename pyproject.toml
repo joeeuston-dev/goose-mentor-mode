@@ -1,31 +1,31 @@
 [build-system]
-requires = ["setuptools>=64", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
-name = "mentor-mcp"
+name = "goose-mentor-mode"
 version = "0.1.0"
-description = "MCP Extension for AI-powered learning mentorship in development workflows"
+description = "AI-powered mentor extension for Goose that transforms automation into guided learning"
 authors = [
-    {name = "Mentor Mode Team", email = "mentor@example.com"}
+    {name = "Joe Euston", email = "joe@example.com"}
 ]
 license = {text = "MIT"}
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.11"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Education",
 ]
+keywords = ["goose", "ai", "mentor", "learning", "development"]
+
 dependencies = [
-    "mcp>=0.1.0",
-    "pydantic>=2.0.0",
+    # Core dependencies for mentor functionality
     "typing-extensions>=4.0.0",
 ]
 
@@ -37,35 +37,32 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.5.0",
 ]
+goose = [
+    "goose-ai>=0.9.0",
+    "rich>=10.0.0",
+]
 
 [project.urls]
-Homepage = "https://github.com/your-repo/mentor-mode"
-Repository = "https://github.com/your-repo/mentor-mode"
-Documentation = "https://github.com/your-repo/mentor-mode/blob/main/README.md"
+Homepage = "https://github.com/joeeuston-dev/goose-mentor-mode"
+Repository = "https://github.com/joeeuston-dev/goose-mentor-mode"
+Documentation = "https://github.com/joeeuston-dev/goose-mentor-mode/blob/main/README.md"
+Issues = "https://github.com/joeeuston-dev/goose-mentor-mode/issues"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
+[project.entry-points."goose.toolkit"]
+mentor = "goose_mentor_mode:MentorToolkit"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/goose_mentor_mode"]
 
-[tool.black]
-line-length = 100
-target-version = ['py38']
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/README.md",
+    "/LICENSE",
+]
 
-[tool.ruff]
-line-length = 100
-target-version = "py38"
-
-[tool.mypy]
-python_version = "3.8"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
