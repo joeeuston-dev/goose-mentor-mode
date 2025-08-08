@@ -21,22 +21,12 @@ Goose Mentor Mode is officially published and available to the entire Python com
 
 ## 📦 Installation
 
-Goose Mentor Mode is now available on PyPI! Install it easily using your preferred Python package manager.
+Goose Mentor Mode is a Goose extension that integrates seamlessly with Goose Desktop. There are two installation methods:
 
-### 🚀 Quick Install (Recommended)
+### 🚀 Quick Install via PyPI (Recommended)
 
-**For Goose Users:**
 ```bash
-# Install with uvx (recommended for Goose integration)
-uvx install goose-mentor-mode
-
-# Or with pip
-pip install goose-mentor-mode
-```
-
-**For Python Projects:**
-```bash
-# Install as a dependency
+# Install the package
 pip install goose-mentor-mode
 
 # Or with uv
@@ -64,14 +54,35 @@ pip install -e .
 
 ### Goose Desktop Integration
 
-Add the mentor toolkit to your Goose profile configuration:
+After installing the package, configure it in Goose Desktop:
 
-1. Open Goose Desktop Settings
-2. Navigate to the Extensions section
-3. Add environment variables for mentor mode configuration
-4. Add the mentor toolkit to your profile's toolkits list
+#### Step 1: Install the Package
+```bash
+pip install goose-mentor-mode
+```
 
-**Environment Variables:**
+#### Step 2: Configure in Goose Desktop
+
+**Method 1: Through Goose Desktop UI**
+1. Open Goose Desktop
+2. Go to **Settings** → **Profiles** 
+3. Select your profile or create a new one
+4. Add `mentor` to the **Toolkits** list
+5. Optionally configure environment variables for customization
+
+**Method 2: Direct Profile Configuration**
+
+Add to your Goose profile configuration:
+
+```yaml
+toolkits:
+  - name: mentor
+    package: goose-mentor-mode
+```
+
+#### Step 3: Environment Configuration (Optional)
+
+Customize behavior using environment variables:
 
 ```bash
 # Core Configuration
@@ -83,22 +94,14 @@ MAX_GUIDANCE_DEPTH=3                    # Depth of Socratic questioning
 DEVELOPER_EXPERIENCE_MONTHS=6           # Developer experience level
 ```
 
-**Profile Configuration Example:**
+**Environment Variable Configuration in Goose Desktop:**
+1. Go to Settings → Profiles → [Your Profile]
+2. Add environment variables in the Environment section
+3. Save and restart Goose Desktop
 
-```yaml
-toolkits:
-  - name: mentor
-    package: goose-mentor-mode
-```
+📖 **For detailed usage examples and scenarios, see [USAGE_EXAMPLES.md](USAGE_EXAMPLES.md)**
 
-### Command Line Usage
-
-```bash
-# Run with environment configuration
-DEFAULT_ASSISTANCE_LEVEL=guided \
-LEARNING_PHASE=onboarding \
-uvx run goose-mentor-mode
-```
+🎯 **For complete Goose Desktop setup instructions, see [GOOSE_DESKTOP_CONFIG.md](GOOSE_DESKTOP_CONFIG.md)**
 
 ## 🎯 Assistance Levels
 
