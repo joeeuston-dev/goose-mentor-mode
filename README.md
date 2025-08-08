@@ -15,26 +15,49 @@ AI-powered mentor extension for Goose that transforms development assistance fro
 - **Environment Configuration**: Easy setup through environment variables
 - **Goose Integration**: Seamless integration with Goose AI assistant
 
+## 🎉 Now Available on PyPI!
+
+Goose Mentor Mode is officially published and available to the entire Python community! Install it with a single command and start transforming your AI assistance from automation to education.
+
 ## 📦 Installation
 
-### For Goose Users
+Goose Mentor Mode is now available on PyPI! Install it easily using your preferred Python package manager.
 
-Install directly with uvx for immediate use with Goose:
+### 🚀 Quick Install (Recommended)
 
+**For Goose Users:**
 ```bash
-# Install the extension
+# Install with uvx (recommended for Goose integration)
 uvx install goose-mentor-mode
 
-# Add to your Goose profile (see Configuration section)
+# Or with pip
+pip install goose-mentor-mode
 ```
 
-### For Development
+**For Python Projects:**
+```bash
+# Install as a dependency
+pip install goose-mentor-mode
+
+# Or with uv
+uv add goose-mentor-mode
+```
+
+### 📦 PyPI Package
+
+- **PyPI**: https://pypi.org/project/goose-mentor-mode/
+- **Latest Version**: [![PyPI version](https://badge.fury.io/py/goose-mentor-mode.svg)](https://badge.fury.io/py/goose-mentor-mode)
+
+### 🛠️ Development Installation
 
 ```bash
 # Clone and install for development
 git clone https://github.com/joeeuston-dev/goose-mentor-mode.git
 cd goose-mentor-mode
 uv sync
+
+# Or with pip in development mode
+pip install -e .
 ```
 
 ## ⚙️ Configuration
