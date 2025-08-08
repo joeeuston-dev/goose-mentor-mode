@@ -87,18 +87,29 @@ class MentorEngine:
     
     def _identify_learning_opportunities(self, request: str) -> Dict[str, Any]:
         """Identify potential learning moments in the request."""
-        # TODO: Implement sophisticated analysis
-        # - Complexity assessment
-        # - Concept identification
-        # - Pattern recognition opportunities
-        # - Security/best practice teaching moments
+        request_lower = request.lower()
+        
+        # Security-related concepts
+        security_keywords = ["jwt", "authentication", "authorization", "security", "oauth", "token", "password", "hash", "encrypt"]
+        security_concepts = [keyword for keyword in security_keywords if keyword in request_lower]
+        
+        # Architecture patterns
+        pattern_keywords = ["api", "rest", "microservice", "database", "cache", "queue", "event"]
+        patterns = [keyword for keyword in pattern_keywords if keyword in request_lower]
+        
+        # Best practices opportunities
+        best_practice_keywords = ["error handling", "validation", "testing", "logging", "monitoring"]
+        best_practices = [keyword for keyword in best_practice_keywords if keyword in request_lower]
+        
+        # Calculate complexity score
+        complexity_indicators = len(security_concepts) + len(patterns) + len(best_practices)
         
         return {
-            "concepts": [],
-            "patterns": [],
-            "security_considerations": [],
-            "best_practices": [],
-            "complexity_score": 0
+            "concepts": security_concepts + patterns,
+            "patterns": patterns,
+            "security_considerations": security_concepts,
+            "best_practices": best_practices,
+            "complexity_score": complexity_indicators
         }
     
     def _select_assistance_level(self, 
@@ -156,10 +167,21 @@ Instead of giving you the direct answer, let's explore this together through som
 
 💡 *Remember: The goal is building your problem-solving skills, not just getting an answer!*"""
 
+        # Generate context-aware learning objectives
+        learning_objectives = ["Develop problem-solving methodology", "Build analytical thinking", "Practice research skills"]
+        
+        # Add specific objectives based on detected opportunities
+        if opportunities["security_considerations"]:
+            learning_objectives.append("Understand security principles and best practices")
+        if opportunities["patterns"]:
+            learning_objectives.append("Learn architectural patterns and design principles")
+        if opportunities["best_practices"]:
+            learning_objectives.append("Apply development best practices")
+
         return MentorResponse(
             content=content,
             assistance_level=AssistanceLevel.GUIDED,
-            learning_objectives=["Develop problem-solving methodology", "Build analytical thinking", "Practice research skills"],
+            learning_objectives=learning_objectives,
             follow_up_questions=[
                 "What is the core problem you're trying to solve?",
                 "What approaches have you considered?",
@@ -203,10 +225,21 @@ I'll solve this for you while explaining the reasoning and teaching key concepts
 2. What would happen if we changed [specific aspect]?
 3. How might you apply this pattern to other problems?"""
 
+        # Generate context-aware learning objectives
+        learning_objectives = ["Understand solution reasoning", "Learn applicable patterns", "Build conceptual knowledge"]
+        
+        # Add specific objectives based on detected opportunities
+        if opportunities["security_considerations"]:
+            learning_objectives.append("Understand security principles and best practices")
+        if opportunities["patterns"]:
+            learning_objectives.append("Learn architectural patterns and design principles")
+        if opportunities["best_practices"]:
+            learning_objectives.append("Apply development best practices")
+
         return MentorResponse(
             content=content,
             assistance_level=AssistanceLevel.EXPLAINED,
-            learning_objectives=["Understand solution reasoning", "Learn applicable patterns", "Build conceptual knowledge"],
+            learning_objectives=learning_objectives,
             follow_up_questions=[
                 "Can you explain why this approach works?",
                 "What other scenarios might use similar patterns?",
