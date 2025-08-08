@@ -1,179 +1,327 @@
-# Mentor Mode: AI-Powered Learning Assistant for Junior Developers
+# Mentor Mode: AI-Powered Learning Assistant
 
-[![Project Status](https://img.shields.io/badge/Status-Development-yellow)](https://github.com/your-repo/mentor-mode)
-[![Documentation](https://img.shields.io/badge/Documentation-Complete-green)](./docs/)
-[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-0.1.0-blue)](https://github.com/your-repo/mentor-mode)
+[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green)](https://modelcontextprotocol.io/)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue)](https://python.org)
+[![Tests](https://img.shields.io/badge/Tests-16%2F16%20Passing-brightgreen)](./tests/)
 
-## 🎯 Project Vision
+> 🎯 **Transform AI assistance from automation to guided learning experiences**
 
-Transform AI-assisted development from **automation to augmentation** through guided learning, ensuring junior developers build genuine expertise while maintaining productivity.
+## 🚀 Overview
 
-## 📋 Table of Contents
+The Mentor Mode MCP Extension integrates educational mentorship capabilities into AI development workflows through the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/). This extension enables AI agents like Goose to deliver educational guidance rather than just immediate solutions, creating genuine learning opportunities for developers.
 
-- [Overview](#overview)
-- [Problem Statement](#problem-statement)
-- [Solution Approach](#solution-approach)
-- [Quick Start](#quick-start)
-- [Documentation](#documentation)
-- [Development Status](#development-status)
-- [Contributing](#contributing)
+### 🎯 The Problem This Solves
 
-## 🔍 Overview
+Modern AI tools can create a hidden learning deficit: developers become productive quickly but may miss fundamental understanding. This leads to:
 
-Mentor Mode addresses a critical challenge in modern software development: junior developers using AI tools for productivity gains while potentially missing fundamental learning opportunities. This project creates an intelligent mentoring system that guides developers through problem-solving processes rather than simply providing solutions.
+- **AI Dependency**: Shipping code without understanding underlying principles
+- **Debugging Difficulties**: Struggling when AI suggestions fail
+- **Knowledge Gaps**: Poor architectural decisions due to missing foundations
+- **Team Impact**: Reduced code review quality and mentoring effectiveness
 
-### Key Innovation
+### ✨ The Solution: Intelligent Educational Mentorship
 
-Instead of this traditional AI interaction:
+Instead of traditional AI interactions:
 ```
-Developer: "Create a REST API with authentication"
+Developer: "How do I implement JWT authentication?"
 AI: [Delivers complete solution immediately]
 ```
 
-Mentor Mode enables this educational interaction:
+Mentor Mode creates learning-focused experiences:
 ```
-Developer: "Create a REST API with authentication"
-AI: "Great! Let's build this together. What are the main components you think we'll need? 
-     Take a moment to consider the architecture before I show you my approach..."
+Developer: "How do I implement JWT authentication?"
+AI: "Great learning opportunity! Let's explore this step-by-step. What do you think 
+     are the main security considerations we need to address first?"
 ```
 
-## ❌ Problem Statement
+## 🎯 Features
 
-### The Challenge
-- **AI Dependency Risk**: Junior developers can ship code without understanding underlying principles
-- **Debugging Difficulties**: Limited ability to troubleshoot when AI suggestions fail
-- **Knowledge Gaps**: Poor architectural decision-making due to lack of foundational understanding
-- **Team Impact**: Reduced code review quality and mentoring effectiveness
+### 🧠 **Intelligent Learning Opportunity Detection**
+- Analyzes requests for educational value
+- Identifies security concepts, architectural patterns, and best practices
+- Context-aware assistance level selection
 
-### Evidence
-- Junior developers spend 60%+ of time debugging issues they don't fully understand
-- Increased reliance on AI tools without corresponding skill development
-- Difficulty transitioning to AI-restricted environments or complex problem domains
+### 🎓 **Four Assistance Levels**
+- **🔍 Guided**: Socratic questioning for maximum learning
+- **📚 Explained**: Detailed educational explanations with solutions
+- **⚡ Assisted**: Quick solutions with key insights highlighted
+- **🤖 Automated**: Efficient solutions with minimal educational overhead
 
-## ✅ Solution Approach
+### 🔧 **Comprehensive Tool Suite**
+- `mentor_analyze_request`: Analyze requests for learning opportunities
+- `mentor_learning_check`: Validate understanding through Socratic questioning
+- `mentor_track_progress`: Track learning progress and provide recommendations
+- `mentor_suggest_assistance_level`: Suggest appropriate assistance levels
 
-### Core Principles
+### 📊 **Learning Analytics**
+- Progress tracking across sessions
+- Skill development assessment
+- Personalized learning recommendations
 
-1. **Socratic Method Integration**
-   - Ask predictive questions before revealing solutions
-   - Guide discovery rather than provide immediate answers
-   - Connect specific implementations to broader programming principles
-
-2. **Graduated Assistance Levels**
-   - **Level 1**: Pure guidance and hints
-   - **Level 2**: Examples with detailed explanations
-   - **Level 3**: Complete solutions with comprehensive rationale
-   - **Emergency**: Full automation for deadline pressure
-
-3. **Knowledge Validation Checkpoints**
-   - Pause at critical decision points
-   - Require explanation of reasoning
-   - Test understanding through scenario questions
-
-4. **Context-Aware Adaptation**
-   - Adjust teaching intensity based on timeline constraints
-   - Personalize to individual learning pace and style
-   - Scale complexity based on demonstrated competence
-
-## 🚀 Quick Start
+## 🛠 Installation
 
 ### Prerequisites
-- Goose AI Agent with Claude 4
-- Git repository access
-- Basic development environment
+- Python 3.8+
+- Goose AI Agent with Desktop application
+- MCP-compatible environment
 
-### Installation
+### Development Installation
 ```bash
 git clone https://github.com/your-repo/mentor-mode
 cd mentor-mode
-# Additional setup instructions coming soon
+pip install -e ".[dev]"
 ```
 
-### Basic Usage
+### Running Tests
 ```bash
-# Enable mentor mode for current session
-goose --mode mentor --level guided
-
-# Standard development with educational prompts
-goose --mode mentor --level explained
-
-# Emergency mode for deadline pressure
-goose --mode mentor --level automated
+pytest tests/ -v
 ```
 
-## 📚 Documentation
+## 🚀 Quick Start
 
-| Document | Purpose | Audience |
-|----------|---------|----------|
-| [Architecture Overview](./docs/architecture.md) | System design and component interaction | Technical Team |
-| [Implementation Plan](./docs/implementation-plan.md) | Development roadmap and milestones | Project Managers |
-| [Interaction Patterns](./docs/interaction-patterns.md) | Mentor mode conversation flows | UX Designers |
-| [Learning Metrics](./docs/learning-metrics.md) | Success measurement and validation | Stakeholders |
-| [Technical Specifications](./docs/technical-specs.md) | API design and integration details | Developers |
-| [User Guide](./docs/user-guide.md) | How to use mentor mode effectively | Junior Developers |
-| [Research & Analysis](./docs/research.md) | Background research and competitive analysis | Strategy Team |
+### 1. Configure Goose Desktop
 
-## 📊 Development Status
+Add the Mentor Mode extension to your Goose Desktop configuration:
 
-### ✅ Phase 1: Foundation & Architecture Analysis (Complete)
-- [x] Project structure and documentation
-- [x] Problem analysis and solution design
-- [x] Core educational logic implementation (15/16 tests passing)
-- [x] Socratic questioning framework development
-- [x] **BREAKTHROUGH**: Goose core architecture investigation complete
-- [x] Multiple integration pathways identified and validated
+1. Open Goose Desktop
+2. Go to **Settings** → **Extensions**
+3. Add a new MCP extension with these settings:
 
-### 🔄 Phase 2: Multi-Path Implementation (Current)
+```yaml
+extensions:
+  mentor-mode:
+    cmd: python3
+    args:
+      - -m
+      - mentor_mcp.server
+    cwd: /path/to/your/mentor-mode
+    envs:
+      PYTHONPATH: /path/to/your/mentor-mode/src
+      # Configuration (see Configuration section below)
+      DEFAULT_ASSISTANCE_LEVEL: "guided"
+      LEARNING_PHASE: "skill_building"
+      TIMELINE_PRESSURE: "low"
+    enabled: true
+    type: stdio
+    timeout: 300
+```
 
-#### Path 1: Enhanced MCP Extension (Immediate)
-- [ ] Sophisticated educational tool suite implementation
-- [ ] System prompt injection for educational context
-- [ ] Learning opportunity detection algorithms
-- [ ] Integration testing with Goose
+### 2. Test the Integration
 
-#### Path 2: Core Platform Integration (Grant Development)
-- [ ] Rust learning and development environment setup
-- [ ] Message interception prototype in core agent pipeline
-- [ ] Educational flow control implementation
-- [ ] Grant proposal preparation for Goose grant program
+Try these test requests to verify mentor mode is working:
 
-### 🎯 Phase 3: Validation & Scaling (Next)
-- [ ] User testing with educational effectiveness validation
-- [ ] Performance optimization and impact assessment
-- [ ] Community feedback integration
-- [ ] Documentation and deployment for wider adoption
+**For Guided Learning:**
+```
+"How do I implement JWT authentication in my Node.js API?"
+```
+*Expected: Socratic questions that guide you to discover the solution*
 
-## 🚀 Major Milestone: Architecture Breakthrough
+**For Educational Explanations:**
+```
+"Explain how to set up error handling in Express.js"
+```
+*Expected: Detailed step-by-step educational explanation*
 
-**Key Discovery**: Goose architecture investigation revealed **three viable implementation paths** from enhanced MCP extensions to core platform integration. The path forward combines immediate implementation through MCP extensions with potential grant-funded core integration for seamless educational flow control.
-- [ ] Learning outcome measurement
-- [ ] Performance impact analysis
-- [ ] Iteration based on feedback
+## 🔧 Configuration
+
+Configure mentor mode behavior for different developer profiles:
+
+### **New Developer (6 months experience) - Maximum Learning**
+```yaml
+envs:
+  PYTHONPATH: /path/to/mentor-mode/src
+  DEFAULT_ASSISTANCE_LEVEL: "guided"
+  LEARNING_PHASE: "skill_building"
+  TIMELINE_PRESSURE: "low"
+  ENABLE_VALIDATION_CHECKPOINTS: "true"
+  MAX_GUIDANCE_DEPTH: "5"
+  DEFAULT_SKILL_LEVEL: "1"
+  DEVELOPER_EXPERIENCE_MONTHS: "6"
+```
+
+### **Experienced Developer - Balanced Assistance**
+```yaml
+envs:
+  PYTHONPATH: /path/to/mentor-mode/src
+  DEFAULT_ASSISTANCE_LEVEL: "assisted"
+  LEARNING_PHASE: "production"
+  TIMELINE_PRESSURE: "medium"
+  ENABLE_VALIDATION_CHECKPOINTS: "false"
+  DEFAULT_SKILL_LEVEL: "4"
+```
+
+### **Emergency/Deadline Mode - Minimal Education**
+```yaml
+envs:
+  PYTHONPATH: /path/to/mentor-mode/src
+  DEFAULT_ASSISTANCE_LEVEL: "automated"
+  LEARNING_PHASE: "production"
+  TIMELINE_PRESSURE: "high"
+  ENABLE_VALIDATION_CHECKPOINTS: "false"
+  MAX_GUIDANCE_DEPTH: "1"
+```
+
+### Configuration Reference
+
+| Variable | Values | Default | Description |
+|----------|--------|---------|-------------|
+| `DEFAULT_ASSISTANCE_LEVEL` | `guided`, `explained`, `assisted`, `automated` | *(auto)* | Override automatic assistance level selection |
+| `LEARNING_PHASE` | `onboarding`, `skill_building`, `production` | `skill_building` | Developer's current learning phase |
+| `TIMELINE_PRESSURE` | `low`, `medium`, `high` | `low` | Project timeline pressure level |
+| `ENABLE_VALIDATION_CHECKPOINTS` | `true`, `false` | `true` | Enable learning validation questions |
+| `MAX_GUIDANCE_DEPTH` | `1`-`5` | `3` | Maximum depth of guided learning |
+| `FORCE_MENTOR_MODE` | `true`, `false` | `false` | Always trigger educational responses |
+| `DEFAULT_SKILL_LEVEL` | `0`-`5` | `1` | Default skill level for new developers |
+
+See [goose-config-examples.md](./goose-config-examples.md) for detailed configuration examples.
+
+## 📚 Tool Documentation
+
+### `mentor_analyze_request`
+
+Analyzes developer requests for learning opportunities and generates appropriate educational responses.
+
+**Parameters:**
+- `user_request` (string): The developer's request or question
+- `context` (object, optional): Session context including timeline pressure, skills, etc.
+- `assistance_level` (string, optional): Override assistance level
+
+**Example Usage:**
+```python
+result = await mentor_analyze_request(
+    user_request="How do I implement JWT authentication in my Node.js API?",
+    context={
+        "timeline_pressure": "low",
+        "learning_phase": "skill_building",
+        "skills": {"javascript": 3, "security": 1}
+    }
+)
+```
+
+### `mentor_learning_check`
+
+Validates understanding of concepts through Socratic questioning.
+
+**Parameters:**
+- `concept` (string): The concept being validated
+- `user_explanation` (string): User's explanation of the concept
+- `expected_understanding` (array): Key points that should be understood
+
+### `mentor_track_progress`
+
+Tracks learning progress and provides personalized recommendations.
+
+**Parameters:**
+- `activity` (string): The learning activity completed
+- `success_indicators` (object): Indicators of success or areas needing improvement
+
+### `mentor_suggest_assistance_level`
+
+Suggests optimal assistance level based on context and developer needs.
+
+**Parameters:**
+- `user_request` (string): The developer's request
+- `context` (object): Session context and developer information
+
+## 🎯 Learning Opportunity Detection
+
+The system automatically detects educational opportunities in requests containing:
+
+- **Security Concepts**: JWT, authentication, authorization, encryption, HTTPS, CORS
+- **Architecture Patterns**: API, REST, microservices, databases, design patterns
+- **Best Practices**: Error handling, validation, testing, logging, performance
+- **Development Tools**: Git, debugging, deployment, monitoring
+
+## 📊 Success Metrics
+
+Mentor Mode is designed to improve:
+
+- **Learning Effectiveness**: Better retention of concepts and patterns
+- **Problem-Solving Skills**: Enhanced analytical and debugging capabilities
+- **Knowledge Transfer**: Improved ability to explain and teach concepts
+- **Developer Confidence**: Stronger foundation for independent problem-solving
+- **Team Impact**: Enhanced code review quality and mentoring effectiveness
+
+## 🧪 Development & Testing
+
+### Running Tests
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run specific test category
+pytest tests/test_mentor_engine.py -v
+
+# Check test coverage
+pytest tests/ --cov=mentor_mcp --cov-report=html
+```
+
+### Development Setup
+```bash
+# Install in development mode
+pip install -e ".[dev]"
+
+# Code quality checks
+black src/ tests/
+ruff src/ tests/
+mypy src/
+```
+
+## 📁 Project Structure
+
+```
+mentor-mode/
+├── src/mentor_mcp/           # Main MCP extension code
+│   ├── server.py            # MCP server implementation
+│   ├── mentor_engine.py     # Core educational logic
+│   └── tools/               # Individual MCP tools
+├── tests/                   # Comprehensive test suite
+│   ├── test_mentor_engine.py
+│   ├── test_tools.py
+│   └── conftest.py
+├── docs/                    # Additional documentation
+├── examples/                # Usage examples
+├── pyproject.toml           # Python package configuration
+├── goose-config-examples.md # Goose configuration examples
+└── README.md               # This file
+```
 
 ## 🤝 Contributing
 
-We welcome contributions from developers, educators, and AI researchers. Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+We welcome contributions from developers, educators, and AI researchers!
 
 ### Development Workflow
 1. Fork the repository
 2. Create a feature branch
-3. Implement changes with documentation
-4. Submit pull request with comprehensive description
+3. Implement changes with comprehensive tests
+4. Ensure all tests pass (`pytest tests/`)
+5. Submit pull request with detailed description
 
-## 🎯 Success Metrics
+### Code Quality Standards
+- All new features must include tests
+- Code coverage should remain above 90%
+- Follow Python PEP 8 style guidelines
+- Include docstrings for all public functions
 
-- **Learning Effectiveness**: Improved code review feedback quality
-- **Knowledge Retention**: Reduced debugging time for mysterious issues
-- **Developer Confidence**: Ability to explain implementation decisions
-- **Team Impact**: Enhanced mentoring and knowledge sharing
+## 📄 License
 
-## 📞 Contact & Support
+MIT License - see [LICENSE](./LICENSE) for details.
 
-- **Project Lead**: [Your Name]
-- **Documentation**: See [docs/](./docs/) directory
-- **Issues**: [GitHub Issues](https://github.com/your-repo/mentor-mode/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/mentor-mode/discussions)
+## 🚀 Future Roadmap
+
+- **Enhanced Learning Analytics**: Detailed progress tracking and skill gap analysis
+- **Integration with Popular IDEs**: VS Code and JetBrains extensions
+- **Team Learning Dashboards**: Organizational learning insights
+- **Custom Learning Paths**: Personalized curricula for different technologies
+- **Community Learning Resources**: Shared knowledge base and best practices
 
 ---
 
-**Built with the goal of empowering the next generation of developers through intelligent AI mentorship.**
+**Built to empower the next generation of developers through intelligent AI mentorship.** 🚀
+
+### 📞 Contact & Support
+
+- **Issues**: [GitHub Issues](https://github.com/your-repo/mentor-mode/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-repo/mentor-mode/discussions)
+- **Documentation**: Complete guides in [docs/](./docs/) directory
