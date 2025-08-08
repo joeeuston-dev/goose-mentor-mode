@@ -1,28 +1,13 @@
-"""
-Mentor Mode Goose Extension
+import argparse
+from .server import mcp
 
-An educational AI assistant that transforms development assistance from automation 
-to guided learning experiences.
-"""
+def main():
+    """Goose Mentor Mode: AI-powered mentor extension that transforms automation into guided learning."""
+    parser = argparse.ArgumentParser(
+        description="AI-powered mentor extension for Goose that transforms automation into guided learning."
+    )
+    parser.parse_args()
+    mcp.run()
 
-__version__ = "0.1.0"
-
-from .mentor_toolkit import MentorToolkit
-from .mentor_engine import (
-    MentorEngine, 
-    MentorConfig,
-    AssistanceLevel,
-    LearningPhase,
-    TimelinePressure,
-    DeveloperContext
-)
-
-__all__ = [
-    "MentorToolkit",
-    "MentorEngine",
-    "MentorConfig",
-    "AssistanceLevel",
-    "LearningPhase",
-    "TimelinePressure",
-    "DeveloperContext"
-]
+if __name__ == "__main__":
+    main()

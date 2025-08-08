@@ -22,9 +22,11 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Education",
 ]
-keywords = ["goose", "ai", "mentor", "learning", "development"]
+keywords = ["goose", "ai", "mentor", "learning", "development", "mcp"]
 
 dependencies = [
+    # MCP (Model Context Protocol) dependencies
+    "mcp[cli]>=1.2.0",
     # Core dependencies for mentor functionality
     "typing-extensions>=4.0.0",
 ]
@@ -37,10 +39,6 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.5.0",
 ]
-goose = [
-    "goose-ai>=0.9.0",
-    "rich>=10.0.0",
-]
 
 [project.urls]
 Homepage = "https://github.com/joeeuston-dev/goose-mentor-mode"
@@ -48,8 +46,8 @@ Repository = "https://github.com/joeeuston-dev/goose-mentor-mode"
 Documentation = "https://github.com/joeeuston-dev/goose-mentor-mode/blob/main/README.md"
 Issues = "https://github.com/joeeuston-dev/goose-mentor-mode/issues"
 
-[project.entry-points."goose.toolkit"]
-mentor = "goose_mentor_mode:MentorToolkit"
+[project.scripts]
+goose-mentor-mode = "goose_mentor_mode:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/goose_mentor_mode"]

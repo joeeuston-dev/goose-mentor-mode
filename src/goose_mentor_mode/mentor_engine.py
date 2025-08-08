@@ -140,32 +140,44 @@ class MentorEngine:
             "next_steps": self._suggest_next_steps(concept, understanding_score)
         }
     
-    def track_progress(self, activity: str, success_indicators: Dict[str, Any]) -> Dict[str, Any]:
+    def track_progress(self, topic: str, interaction_data: Dict[str, Any], session_id: Optional[str] = None, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Track learning progress and provide recommendations."""
-        # Analyze success indicators
-        analytics = self._analyze_progress(success_indicators)
+        # Merge context with config defaults
+        merged_context = self._merge_context(context)
+        
+        # Analyze success indicators from interaction_data
+        analytics = self._analyze_progress(interaction_data)
         
         # Generate recommendations
-        recommendations = self._generate_progress_recommendations(activity, analytics)
+        recommendations = self._generate_progress_recommendations(topic, analytics)
         
         return {
             "type": "progress_update",
-            "activity": activity,
+            "topic": topic,
+            "session_id": session_id,
             "analytics": analytics,
             "recommendations": recommendations,
+            "context": merged_context,
             "timestamp": "current_time"  # In real implementation, use actual timestamp
         }
     
-    def suggest_assistance_level(self, user_request: str, context: Dict[str, Any]) -> Dict[str, Any]:
-        """Suggest optimal assistance level."""
+    def suggest_assistance_level_new(self, user_request: str, user_profile: Optional[Dict[str, Any]] = None, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Suggest optimal assistance level (new version for testing)."""
+        # Merge context with config defaults
+        merged_context = self._merge_context(context)
+        
+        # Merge user profile with config defaults
+        if user_profile:
+            merged_context.update(user_profile)
+        
         # Detect learning opportunities
         learning_opportunities = self._detect_learning_opportunities(user_request)
         
         # Determine suggested level
-        suggested_level = self._determine_assistance_level(user_request, context, learning_opportunities)
+        suggested_level = self._determine_assistance_level(user_request, merged_context, learning_opportunities)
         
         # Generate reasoning
-        reasoning = self._generate_assistance_reasoning(suggested_level, context, learning_opportunities)
+        reasoning = self._generate_assistance_reasoning(suggested_level, merged_context, learning_opportunities)
         
         return {
             "type": "assistance_suggestion",
@@ -178,6 +190,74 @@ class MentorEngine:
                 "timeline_pressure": self.config.timeline_pressure
             }
         }
+    
+    def suggest_assistance_level(self, user_request: str, user_profile: Optional[Dict[str, Any]] = None, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Suggest optimal assistance level."""
+        # Merge context with config defaults
+        merged_context = self._merge_context(context)
+        
+        # Merge user profile with config defaults
+        if user_profile:
+            merged_context.update(user_profile)
+        
+        # Detect learning opportunities
+        learning_opportunities = self._detect_learning_opportunities(user_request)
+        
+        # Determine suggested level
+        suggested_level = self._determine_assistance_level(user_request, merged_context, learning_opportunities)
+        
+        # Generate reasoning
+        reasoning = self._generate_assistance_reasoning(suggested_level, merged_context, learning_opportunities)
+        
+        return {
+            "type": "assistance_suggestion",
+            "suggested_level": suggested_level,
+            "learning_opportunities": learning_opportunities,
+            "reasoning": reasoning,
+            "config_applied": {
+                "default_assistance_level": self.config.default_assistance_level,
+                "learning_phase": self.config.learning_phase,
+                "timeline_pressure": self.config.timeline_pressure
+            }
+        }
+    
+    def validate_learning(self, concept: str, user_response: Optional[str] = None, assistance_level: str = "guided", context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """Validate user understanding through Socratic questioning and provide learning feedback."""
+        # Merge context with config defaults
+        merged_context = self._merge_context(context)
+        
+        # Generate validation questions based on concept and assistance level
+        if user_response is None:
+            # Initial validation - generate questions
+            questions = self._generate_concept_questions(concept, assistance_level)
+            return {
+                "type": "learning_validation",
+                "concept": concept,
+                "assistance_level": assistance_level,
+                "initial_questions": questions,
+                "status": "awaiting_response",
+                "context": merged_context
+            }
+        else:
+            # Assess the user's response
+            understanding_score = self._assess_concept_understanding(concept, user_response)
+            feedback = self._generate_concept_feedback(concept, user_response, understanding_score)
+            follow_up_questions = self._generate_follow_up_questions(concept, understanding_score)
+            
+            return {
+                "type": "learning_validation",
+                "concept": concept,
+                "user_response": user_response,
+                "understanding_score": understanding_score,
+                "feedback": feedback,
+                "follow_up_questions": follow_up_questions,
+                "validation_checkpoints": [
+                    "Can explain the solution approach",
+                    "Understands key concepts involved"
+                ] if merged_context.get("enable_validation_checkpoints", True) else [],
+                "next_steps": self._suggest_next_steps(concept, understanding_score),
+                "context": merged_context
+            }
     
     def _merge_context(self, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
         """Merge provided context with config defaults."""
@@ -428,6 +508,61 @@ class MentorEngine:
             reasons.append(f"Learning opportunities detected: {', '.join(opportunities)}")
         
         return "; ".join(reasons)
+    
+    def _generate_concept_questions(self, concept: str, assistance_level: str) -> List[str]:
+        """Generate questions about a concept based on assistance level."""
+        if assistance_level == AssistanceLevel.GUIDED:
+            return [
+                f"What do you think {concept} is used for?",
+                f"Can you describe {concept} in your own words?",
+                f"What problems does {concept} solve?"
+            ]
+        elif assistance_level == AssistanceLevel.EXPLAINED:
+            return [
+                f"How would you implement {concept}?",
+                f"What are the key components of {concept}?",
+                f"What best practices should you follow with {concept}?"
+            ]
+        else:
+            return [
+                f"What's the most important thing to remember about {concept}?",
+                f"When would you use {concept}?"
+            ]
+    
+    def _assess_concept_understanding(self, concept: str, user_response: str) -> float:
+        """Assess understanding of a concept based on user response."""
+        if not user_response:
+            return 0.0
+        
+        response_lower = user_response.lower()
+        concept_lower = concept.lower()
+        
+        # Simple scoring based on response quality
+        score = 0.0
+        
+        # Check if they mention the concept
+        if concept_lower in response_lower:
+            score += 0.3
+        
+        # Check response length (detail indicator)
+        if len(user_response) > 50:
+            score += 0.3
+        
+        # Check for key understanding indicators
+        understanding_words = ['because', 'function', 'purpose', 'used for', 'helps', 'provides']
+        if any(word in response_lower for word in understanding_words):
+            score += 0.4
+        
+        return min(1.0, score)
+    
+    def _generate_concept_feedback(self, concept: str, user_response: str, understanding_score: float) -> str:
+        """Generate feedback based on concept understanding."""
+        if understanding_score >= 0.8:
+            return f"🎉 Great understanding of {concept}! Your explanation shows you grasp the key concepts."
+        elif understanding_score >= 0.6:
+            return f"👍 Good start with {concept}! You have the basic idea down."
+        else:
+            return f"🔄 Let's work on understanding {concept} better. Your response shows some gaps we can fill."
 
 
 class MentorExtension:
