@@ -17,14 +17,13 @@ from mcp.types import (
     TextContent,
     CallToolRequest,
     CallToolResult,
-    GetToolsRequest,
 )
 from pydantic import BaseModel
 
 # Import our mentor mode logic
 import sys
 import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'src'))
 
 from mentor_mode.core.mentor_engine import MentorEngine, DeveloperContext, AssistanceLevel
 from mentor_mode.goose_extension.mentor_extension import MentorExtension, MentorConfig
