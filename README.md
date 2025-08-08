@@ -1,6 +1,6 @@
 # Goose Mentor Mode 🎓
 
-AI-powered mentor extension for Goose that transforms development assistance from automation into guided learning experiences.
+AI-powered mentor extension for Goose that transforms development assistance from automation into guided learning experiences using the Model Context Protocol (MCP).
 
 [![PyPI version](https://badge.fury.io/py/goose-mentor-mode.svg)](https://badge.fury.io/py/goose-mentor-mode)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
@@ -13,7 +13,7 @@ AI-powered mentor extension for Goose that transforms development assistance fro
 - **Learning Opportunity Detection**: Automatically identifies educational moments
 - **Progress Tracking**: Monitors learning progress and provides recommendations
 - **Environment Configuration**: Easy setup through environment variables
-- **Goose Integration**: Seamless integration with Goose AI assistant
+- **MCP Integration**: Modern Model Context Protocol extension for Goose Desktop
 
 ## 🎉 Now Available on PyPI!
 
@@ -21,26 +21,31 @@ Goose Mentor Mode is officially published and available to the entire Python com
 
 ## 📦 Installation
 
-Goose Mentor Mode is a Goose extension that integrates seamlessly with Goose Desktop.
+Goose Mentor Mode is an MCP (Model Context Protocol) extension for Goose Desktop. It runs as a server that Goose communicates with to provide mentoring capabilities.
 
-### 🚀 Quick Install via PyPI (Recommended)
+### 🚀 Quick Install via Goose Desktop (Recommended)
 
-```bash
-# Install the package (do NOT use uvx - this is a Goose extension, not a CLI tool)
-pip install goose-mentor-mode
+**No manual installation required!** Goose Desktop will automatically install the package when you add it as an extension.
 
-# Or if you're using uv in a project
-uv add goose-mentor-mode
-```
-
-**Note**: This is a Goose extension/toolkit, not a standalone CLI application. Do not try to run it with `uvx` or as a command-line tool.
+1. Open **Goose Desktop**
+2. Click on **Extensions** menu
+3. Select **Add Custom Extension**
+4. Fill in the extension details:
+   - **Extension Name**: `Goose Mentor Mode`
+   - **Type**: `STDIO`
+   - **Description**: `Goose Mentor Mode makes your goose a Mentor that helps you learn as you work together!`
+   - **Command**: `uvx goose-mentor-mode`
+5. Click **Add Extension**
+6. The extension will be automatically installed and ready to use!
 
 ### 📦 PyPI Package
 
 - **PyPI**: https://pypi.org/project/goose-mentor-mode/
 - **Latest Version**: [![PyPI version](https://badge.fury.io/py/goose-mentor-mode.svg)](https://badge.fury.io/py/goose-mentor-mode)
 
-### 🛠️ Development Installation
+### 🛠️ Manual Installation (Development)
+
+For development or manual setup:
 
 ```bash
 # Clone and install for development
@@ -48,41 +53,14 @@ git clone https://github.com/joeeuston-dev/goose-mentor-mode.git
 cd goose-mentor-mode
 uv sync
 
-# Or with pip in development mode
-pip install -e .
+# Build and test locally
+uv build
+uvx --from ./dist/goose_mentor_mode-*.whl goose-mentor-mode --help
 ```
 
 ## ⚙️ Configuration
 
-### Goose Desktop Integration
-
-After installing the package, configure it in Goose Desktop:
-
-#### Step 1: Install the Package
-```bash
-pip install goose-mentor-mode
-```
-
-#### Step 2: Configure in Goose Desktop
-
-**Method 1: Through Goose Desktop UI**
-1. Open Goose Desktop
-2. Go to **Settings** → **Profiles** 
-3. Select your profile or create a new one
-4. Add `mentor` to the **Toolkits** list
-5. Optionally configure environment variables for customization
-
-**Method 2: Direct Profile Configuration**
-
-Add to your Goose profile configuration:
-
-```yaml
-toolkits:
-  - name: mentor
-    package: goose-mentor-mode
-```
-
-#### Step 3: Environment Configuration (Optional)
+### Environment Variables (Optional)
 
 Customize behavior using environment variables:
 
@@ -131,48 +109,42 @@ DEVELOPER_EXPERIENCE_MONTHS=6           # Developer experience level
 - **Best For**: Production pressure, repeated tasks
 - **Example**: "Here's the complete JWT implementation."
 
-## 🛠️ Tools
+## 🛠️ MCP Tools
+
+The extension provides four core MCP tools that work seamlessly with Goose:
 
 ### `mentor_analyze_request`
 Analyzes user requests for learning opportunities and recommends assistance levels.
 
-```python
-toolkit.mentor_analyze_request(
-    user_request="How do I implement JWT authentication?",
-    context={"experience_months": 6, "timeline_pressure": "low"}
-)
-```
+**Parameters:**
+- `request`: The user's request or question
+- `context`: Optional context about the current task or project
 
 ### `mentor_learning_check`
-Validates understanding through Socratic questioning.
+Validates understanding through Socratic questioning and provides learning feedback.
 
-```python
-toolkit.mentor_learning_check(
-    concept="JWT Authentication",
-    user_explanation="JWT is a token that contains user information",
-    expected_understanding=["stateless", "secure", "token-based"]
-)
-```
+**Parameters:**
+- `concept`: The concept or topic to validate understanding for
+- `user_response`: User's response to previous questions (optional)
+- `assistance_level`: Level of assistance (guided, explained, assisted, automated)
 
 ### `mentor_track_progress`
-Tracks learning progress and provides recommendations.
+Tracks learning progress and provides recommendations for continued development.
 
-```python
-toolkit.mentor_track_progress(
-    activity="Implementing JWT authentication",
-    success_indicators={"task_completed": True, "time_spent": 30}
-)
-```
+**Parameters:**
+- `topic`: The learning topic or subject area
+- `interaction_data`: Data about the learning interaction
+- `session_id`: Optional session identifier for progress tracking
 
 ### `mentor_suggest_assistance_level`
-Suggests optimal assistance level for given context.
+Suggests the optimal assistance level based on request complexity and user profile.
 
-```python
-toolkit.mentor_suggest_assistance_level(
-    user_request="I need help with AWS Lambda",
-    context={"experience_months": 6, "timeline_pressure": "medium"}
-)
-```
+**Parameters:**
+- `request`: The user's request or task
+- `user_profile`: Optional user profile information
+- `context`: Optional context about the current situation
+
+> **Note**: These tools are automatically available in Goose once the extension is installed. Goose will intelligently use them based on your interactions to provide mentoring assistance.
 
 ## 🎓 Educational Philosophy
 
