@@ -89,7 +89,7 @@ class MentorEngine:
         
         self.best_practice_patterns = [
             'error handling', 'validation', 'testing', 'unit test', 'integration test',
-            'logging', 'monitoring', 'debugging', 'code review', 'documentation',
+            'logging', 'monitoring', 'debug', 'debugging', 'code review', 'documentation',
             'clean code', 'refactoring', 'optimization', 'best practice'
         ]
     
@@ -154,6 +154,7 @@ class MentorEngine:
         return {
             "type": "progress_update",
             "topic": topic,
+            "activity": topic,  # Include both for backward compatibility
             "session_id": session_id,
             "analytics": analytics,
             "recommendations": recommendations,
@@ -296,6 +297,25 @@ class MentorEngine:
                 opportunities.append("best_practices")
                 break
         
+        # Enhanced detection for question-based learning indicators
+        learning_question_patterns = [
+            'how do', 'what is', 'explain', 'help me understand', 'help me',
+            'can you teach', 'show me how', 'walk me through',
+            'what are the steps', 'guide me', 'how would you'
+        ]
+        
+        has_learning_intent = any(pattern in request_lower for pattern in learning_question_patterns)
+        
+        # If we detect learning intent but no specific topic, add general learning opportunity
+        if has_learning_intent and not opportunities:
+            # Check for general technical concepts that benefit from educational approach
+            technical_indicators = [
+                'implement', 'create', 'build', 'develop', 'design', 'setup',
+                'configure', 'deploy', 'optimize', 'debug', 'fix', 'solve'
+            ]
+            if any(indicator in request_lower for indicator in technical_indicators):
+                opportunities.append("general_learning")
+        
         return opportunities
     
     def _determine_assistance_level(self, user_request: str, context: Dict[str, Any], opportunities: List[str]) -> str:
@@ -333,6 +353,8 @@ class MentorEngine:
             learning_objectives.append("Learn architectural patterns and design principles")
         if "best_practices" in opportunities:
             learning_objectives.append("Apply development best practices")
+        if "general_learning" in opportunities:
+            learning_objectives.append("Develop problem-solving and implementation skills")
         
         # Generate content based on assistance level
         if assistance_level == AssistanceLevel.GUIDED:

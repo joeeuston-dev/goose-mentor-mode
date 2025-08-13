@@ -230,7 +230,7 @@ wheels = [
 
 [[package]]
 name = "goose-mentor-mode"
-version = "0.1.3"
+version = "0.1.6"
 source = { editable = "." }
 dependencies = [
     { name = "mcp", extra = ["cli"] },

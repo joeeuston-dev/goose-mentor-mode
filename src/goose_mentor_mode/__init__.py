@@ -1,5 +1,7 @@
 import argparse
 from .server import mcp
+from .mentor_toolkit import MentorToolkit
+from .mentor_engine import MentorConfig
 
 def main():
     """Goose Mentor Mode: AI-powered mentor extension that transforms automation into guided learning."""
