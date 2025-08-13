@@ -22,14 +22,21 @@ mentor_engine = MentorEngine()
 @mcp.tool()
 def mentor_analyze_request(request: str, context: Optional[str] = None) -> Dict[str, Any]:
     """
-    Analyze a user request for learning opportunities and suggest optimal assistance levels.
+    Analyze user requests to determine if they would benefit from educational guidance vs direct answers.
+    
+    CALL THIS FIRST for: technical questions, debugging issues, "how to" requests, implementation tasks,
+    error troubleshooting, code problems, architecture decisions, or any development-related questions.
+    
+    This tool transforms automation into learning opportunities by detecting when users could benefit 
+    from understanding concepts rather than just getting quick fixes.
     
     Args:
         request: The user's request or question
         context: Optional context about the current task or project
         
     Returns:
-        Analysis including learning opportunities, suggested assistance level, and educational context
+        Analysis including learning opportunities, suggested assistance level, and educational context.
+        Use the suggested assistance level to guide your response approach.
     """
     try:
         # Merge environment configuration if available
@@ -54,7 +61,13 @@ def mentor_learning_check(
     assistance_level: str = "guided"
 ) -> Dict[str, Any]:
     """
-    Validate user understanding through Socratic questioning and provide learning feedback.
+    Use when you want to validate user understanding through Socratic questioning and educational feedback.
+    
+    Call this tool when:
+    - You want to check if the user understands a concept before proceeding
+    - The user has asked follow-up questions indicating confusion
+    - You need to provide guided learning rather than direct answers
+    - You want to use the Socratic method to help users discover solutions
     
     Args:
         concept: The concept or topic to validate understanding for
@@ -90,9 +103,15 @@ def mentor_track_progress(
     """
     Track learning progress and provide recommendations for continued development.
     
+    Use this tool after educational interactions to:
+    - Monitor how well the user is grasping concepts
+    - Provide personalized learning recommendations
+    - Track skill development over time
+    - Suggest next steps for continued learning
+    
     Args:
         topic: The learning topic or subject area
-        interaction_data: Data about the learning interaction
+        interaction_data: Data about the learning interaction (success, understanding shown, etc.)
         session_id: Optional session identifier for progress tracking
         
     Returns:
@@ -122,12 +141,19 @@ def mentor_suggest_assistance_level(
     context: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
     """
-    Suggest the optimal assistance level based on request complexity and user profile.
+    Determine the optimal teaching approach (guided, explained, assisted, or automated) for a user request.
+    
+    Use this tool when you need to decide how much guidance vs direct answers to provide.
+    Returns suggestions for:
+    - GUIDED: Socratic questioning and discovery-based learning
+    - EXPLAINED: Educational explanations with examples
+    - ASSISTED: Quick guidance with brief explanations
+    - AUTOMATED: Direct answers with minimal teaching
     
     Args:
         request: The user's request or task
-        user_profile: Optional user profile information
-        context: Optional context about the current situation
+        user_profile: Optional user profile information (skill level, experience, etc.)
+        context: Optional context about the current situation (timeline pressure, learning phase)
         
     Returns:
         Suggested assistance level with reasoning and alternative options

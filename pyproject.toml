@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "goose-mentor-mode"
-version = "0.1.6"
+version = "0.1.7"
 description = "AI-powered mentor extension for Goose that transforms automation into guided learning"
 authors = [
     {name = "Joe Euston", email = "joe@example.com"}
